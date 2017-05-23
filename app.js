@@ -54,7 +54,7 @@ app.use(passport.session());
 var User = require('./models/user');
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
-passport.deseriallizeUser(User.deseriallizeUser());
+passport.deserializeUser(User.deserializeUser());
 
 /* Format error messages */
 app.use(validator({
@@ -88,8 +88,8 @@ app.use(function (req, res, next) {
 var db = require('./config/db');
 
 /* Set up routes */
-var indexRoutes = require('./routes/indexRoutes');
-app.use('/', indexRoutes);
+var routes = require('./routes/routes');
+app.use('/', routes);
 
 /*Set Port								            */
 app.listen(3000, function(){

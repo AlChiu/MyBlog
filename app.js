@@ -33,8 +33,8 @@ app.use(cookieParser());
 app.use(methodOverride("_method"));
 
 /* Set viewing engine */
-app.set("views", path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout:'layout'}));
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', exphbs({defaultLayout:'main'}));
 app.set('view engine', 'handlebars');
 
 /* Static public path */
@@ -74,6 +74,10 @@ app.use(function (req, res, next) {
   res.locals.user = req.user || null;
   next();
 });
+
+/* Set up routes */
+var indexRoutes = require('./routes/indexRoutes');
+app.use('/', indexRoutes);
 
 /*Set Port								            */
 app.listen(3000, function(){

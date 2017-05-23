@@ -1,0 +1,46 @@
+{
+  "name": "myblog",
+  "version": "1.0.0",
+  "description": "This is my blog that I hope to expand on.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon app.js",
+    "grunt": "grunt",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlChiu/MyBlog.git"
+  },
+  "author": "alexander chiu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlChiu/MyBlog/issues"
+  },
+  "homepage": "https://github.com/AlChiu/MyBlog#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-handlebars": "^3.0.0",
+    "express-messages": "^1.0.1",
+    "express-sanitizer": "^1.0.2",
+    "express-session": "^1.15.3",
+    "express-validator": "^3.2.0",
+    "handlebars-helpers": "^0.8.2",
+    "method-override": "^2.3.9",
+    "mongoose": "^4.10.0",
+    "morgan": "^1.8.1",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "q": "^1.5.0",
+    "semantic-ui": "^2.2.10"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.4.1"
+  }
+}

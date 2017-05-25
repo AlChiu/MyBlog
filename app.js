@@ -23,6 +23,11 @@ var express = require('express'),
 /* Let the part start - configure the app */
 var app = express();
 
+/* Set viewing engine */
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', exphbs({defaultLayout:'main'}));
+app.set('view engine', 'handlebars');
+
 /* Set up logger */
 app.use(morgan('dev'));
 
@@ -32,11 +37,6 @@ app.use(bodyParser.json());
 app.use(expressSanitizer());
 app.use(cookieParser('your secret here'));
 app.use(methodOverride("_method"));
-
-/* Set viewing engine */
-app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout:'main'}));
-app.set('view engine', 'handlebars');
 
 /* Static public path */
 app.use(express.static(path.join(__dirname, 'public')));

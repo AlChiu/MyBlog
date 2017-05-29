@@ -4,8 +4,7 @@
 /* Importing modules */
 var express = require('express'),
 	exphbs = require('express-handlebars'),
-	helpers = require('handlebars-helpers'),
-	expressSanitizer = require('express-sanitizer'),
+	expressHelpers = require('handlebars-helpers'),
 	messages = require('express-messages'),
 	session = require('express-session'),
 	validator = require('express-validator'),
@@ -18,24 +17,48 @@ var express = require('express'),
 	path = require('path'),
 	flash = require('connect-flash'),
 	morgan = require('morgan'),
-	promises = require('q');
+	promises = require('q'),
+	helpers = require('./views/helper');
 
 /* Let the part start - configure the app */
 var app = express();
 
 /* Set viewing engine */
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout:'main'}));
+var hbs = exphbs.create({
+	defaultLayout: 'main',
+	helpers: helpers
+});
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 /* Set up logger */
 app.use(morgan('dev'));
 
 /* Set parsing configuration */
-app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-app.use(expressSanitizer());
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser('your secret here'));
+
+/* Set up the validator */
+app.use(validator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.'), 
+      	  root    = namespace.shift(),
+      	  formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
+
+/* Set up method overrides for PUT and DELETE */
 app.use(methodOverride("_method"));
 
 /* Static public path */
@@ -55,24 +78,6 @@ var User = require('./models/user');
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-/* Format error messages */
-app.use(validator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.'), 
-      	  root    = namespace.shift(),
-      	  formParam = root;
-
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']';
-    }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    };
-  }
-}));
 
 /* Set and use flash */
 app.use(flash());

@@ -1,8 +1,22 @@
-{{#if user}}
-	<h1>Hello {{user.username}}</h1>
-	<a href="/logout">Logout</a>
-{{else}}
-	<a href="/login">Login</a>
-	<br>
-	<a href="/register">Register</a>
-{{/if}}
+<div class="container">
+	{{#if user}}
+		<h1>Hello {{user.username}}</h1>
+		<a href="/logout">Logout</a>
+	{{else}}
+		<a href="/login">Login</a>
+		<br>
+		<a href="/register">Register</a>
+	{{/if}}
+</div>
+<div class="container">
+{{#each posts}}
+	<a href="/{{posts._id}}">{{posts.title}}</a>
+	<div class="content">
+		{{posts.created}}
+		<br>
+		{{posts.body}}
+		<br>
+		{{posts.author}}
+	</div>
+{{/each}}
+</div>

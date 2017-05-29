@@ -1,10 +1,18 @@
+/*jslint node: true */
+'use strict';
+
+/* Import dependencies */
 var router = require('express').Router(),
 	passport = require('passport');
+	//mongoose = require('mongoose');
+
+/* Set up mongoose to use q promises */
+//mongoose.Promise = require('q').Promise;
 
 /* require models */
 var User = require('../models/user');
 var Post = require('../models/post');
-var Comment = require('../models/post');
+var Comment = require('../models/comment');
 
 /* Render the home page and with user data */
 /* Populate homepage with posts */
@@ -25,8 +33,12 @@ router.get('/new', function(req, res){
 
 /* Save new post */
 router.post('/new', function(req, res){
-	req.body.body = req.sanitize(req.body.body);
-	Post.create({title: req.body.title, body: req.body.body, created: Date.now()}, function(err, newPost){
+	/* Trim and sanitize the new post */
+	req.sanitize('postTitle').escape();
+	req.sanitize('postTitle').trim();
+	req.sanitize('postBody').escape();
+
+	Post.create({title: req.body.postTitle, body: req.body.postBody, created: Date.now()}, function(err, newPost){
 		if(err)
 			res.render('/new');
 		else

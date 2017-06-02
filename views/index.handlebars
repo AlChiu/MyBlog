@@ -10,13 +10,13 @@
 </div>
 <div class="container">
 {{#each posts}}
-	<a href="/{{posts._id}}">{{posts.title}}</a>
+	<a href="/{{_id}}">{{title}}</a>
 	<div class="content">
-		{{posts.created}}
+		{{created}}
 		<br>
-		{{posts.body}}
+		{{ssubstring body 0 150}}
 		<br>
-		{{posts.author}}
+		{{author}}
 	</div>
 {{/each}}
 </div>

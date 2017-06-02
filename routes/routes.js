@@ -17,7 +17,7 @@ var Comment = require('../models/comment');
 /* Render the home page and with user data */
 /* Populate homepage with posts */
 router.get('/', function(req, res){
-	Post.find({}).sort({'created': -1}).exec(function(err, posts){
+	Post.find({}).sort({created: -1}).exec(function(err, posts){
 		if(err)
 			console.log('error:' + err);
 		else
@@ -40,44 +40,7 @@ router.post('/new', function(req, res){
 
 	Post.create({title: req.body.postTitle, body: req.body.postBody, created: Date.now()}, function(err, newPost){
 		if(err)
-			res.render('/new');
-		else
-			res.redirect('/');
-	});
-});
-
-/* Show the specific blog post */
-router.get('/:id', function(req, res){
-	Post.findById(req.params.id, function(err, foundPost){
-		if(err){
-			console.log(err);
-			res.redirect('/');
-		}
-		else
-			res.render('/post', {post: foundPost});
-	});
-});
-
-/* Update selected post */
-router.put('/:id', function(req, res){
-	req.body.body = req.sanitize(res.body.body);
-	Post.findByIdAndUpdate(req.params.id, req.body.body, function(err, updatedPost){
-		if(err){
-			console.log('err:'+ err);
-			res.redirect('/'+req.params.id+'/edit');
-		}
-		else
-			res.redirect('/'+req.params.id);
-	});
-});
-
-/* Delete a post */
-router.delete('/:id', function(req, res){
-	Post.findByIdAndRemove(req.params.id, function(err){
-		if(err){
-			console.log(err);
-			res.redirect('/'+req.params.id);
-		}
+			res.render('new');
 		else
 			res.redirect('/');
 	});
@@ -118,6 +81,65 @@ router.get('/logout', function(req, res){
 
 router.get('/ping', function(req, res){
 	res.send("pong!", 200);
+});
+
+/* Show the specific blog post */
+router.get('/:post', function(req, res){
+	Post.findById(req.params.post, function(err, foundPost){
+		if(err){
+			console.log(err);
+			res.redirect('/');
+		}
+		else
+			Comment.find({post: req.params.post}).sort({created: 1}).exec(function(err, foundComment){
+				if(err){
+					console.log(err);
+					res.redirect('/');
+				}
+				else
+					res.render('post', {user: req.user, post: foundPost, comment: foundComment});
+			});
+	});
+});
+
+/* Add Comments to the specific blog post */
+router.post('/:post/comment', function(req, res){
+	/* Sanitize the comment */
+	req.sanitize('postComment').escape();
+
+	Comment.create({author: req.user.username, created: Date.now(), body: req.body.postComment, post: req.body.postID}, function(err, newComment){
+		if(err){
+			console.log(err);
+			res.redirect('/');
+		}
+		else
+			res.redirect('/'+req.body.postID);
+	});
+});
+
+/* Update selected post */
+router.put('/:id', function(req, res){
+	req.body.body = req.sanitize(res.body.body);
+	Post.findByIdAndUpdate(req.params.id, req.body.body, function(err, updatedPost){
+		if(err){
+			console.log('err:'+ err);
+			res.redirect('/'+req.params.id+'/edit');
+		}
+		else
+			res.redirect('/:id');
+	});
+});
+
+/* Delete a post */
+router.delete('/:id', function(req, res){
+	Post.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			console.log(err);
+			res.redirect('/'+req.params.id);
+		}
+		else
+			res.redirect('/');
+	});
 });
 
 module.exports = router;

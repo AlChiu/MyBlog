@@ -1,0 +1,38 @@
+<!-- Actual Blog Post -->
+<div class="container">
+	<article>
+		<header>
+			<h1>{{post.id}}</h1>
+			<h1>{{post.title}}</h1>
+			<p>{{post.created}}</p>
+			<p>{{post.author}}</p>
+		</header>
+		<p>{{post.body}}</p>
+	</article>	
+</div>
+
+<!-- Comment Text -->
+
+<div class="container">
+	{{#if user}}
+		<form name="comment" role="form" action="/:post/comment" method="post">
+			<div class="form-group">
+				<label>Leave a Comment</label>
+				<br>
+				<input type="hidden" name="postID" value="{{post.id}}">
+				<textarea name="postComment"></textarea>
+			</div>
+			<button class="ui large blue button">Submit</button>
+		</form>	
+	{{else}}
+		<p>You need to log in to leave a comment</p>
+	{{/if}}
+</div>
+
+<!-- Comment Section -->
+<div class="container">
+	{{#each comment}}
+		<span>{{author}} -- {{created}}</span>
+		<span>{{body}}</span>
+	{{/each}}
+</div>

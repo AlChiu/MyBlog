@@ -79,10 +79,6 @@ router.get('/logout', function(req, res){
 	res.redirect('/');
 });
 
-router.get('/ping', function(req, res){
-	res.send("pong!", 200);
-});
-
 /* Show the specific blog post */
 router.get('/:post', function(req, res){
 	Post.findById(req.params.post, function(err, foundPost){
@@ -118,12 +114,12 @@ router.post('/:post/comment', function(req, res){
 });
 
 /* Update selected post */
-router.put('/:id', function(req, res){
+router.put('/:post', function(req, res){
 	req.body.body = req.sanitize(res.body.body);
-	Post.findByIdAndUpdate(req.params.id, req.body.body, function(err, updatedPost){
+	Post.findByIdAndUpdate(req.params.post, req.body.body, function(err, updatedPost){
 		if(err){
 			console.log('err:'+ err);
-			res.redirect('/'+req.params.id+'/edit');
+			res.redirect('/'+req.params.post+'/edit');
 		}
 		else
 			res.redirect('/:id');
@@ -131,11 +127,11 @@ router.put('/:id', function(req, res){
 });
 
 /* Delete a post */
-router.delete('/:id', function(req, res){
-	Post.findByIdAndRemove(req.params.id, function(err){
+router.delete('/:post', function(req, res){
+	Post.findByIdAndRemove(req.params.post, function(err){
 		if(err){
 			console.log(err);
-			res.redirect('/'+req.params.id);
+			res.redirect('/'+req.params.post);
 		}
 		else
 			res.redirect('/');

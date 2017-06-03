@@ -1,4 +1,4 @@
-<div class="container">
+<div class="ui container">
 	{{#if user}}
 		<h1>Hello {{user.username}}</h1>
 		<a href="/logout">Logout</a>
@@ -8,15 +8,15 @@
 		<a href="/register">Register</a>
 	{{/if}}
 </div>
-<div class="container">
-{{#each posts}}
-	<a href="/{{_id}}">{{title}}</a>
-	<div class="content">
-		{{created}}
-		<br>
-		{{ssubstring body 0 150}}
-		<br>
-		{{author}}
-	</div>
-{{/each}}
+<div class="ui container">
+	{{#each posts}}
+		<a href="/{{_id}}">{{title}}</a>
+		<div class="content">
+			{{created}}
+			<br>
+			{{ssubstring body 0 150}}
+			<br>
+			{{author}}
+		</div>
+	{{/each}}
 </div>

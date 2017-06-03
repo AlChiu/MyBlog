@@ -18,7 +18,7 @@ var express = require('express'),
 	flash = require('connect-flash'),
 	morgan = require('morgan'),
 	promises = require('q'),
-	helpers = require('./views/helper');
+	helpers = require('./public/js/helper');
 
 /* Let the part start - configure the app */
 var app = express();

@@ -98,6 +98,41 @@ router.get('/:post', function(req, res){
 	});
 });
 
+/* Edit Post Route */
+router.get('/:post/edit', function(req, res){
+	Post.findById(req.params.post, function(err, foundPost){
+		if(err){
+			console.log(err);
+			res.redirect('/'+req.params.post);
+		}
+		else res.render('edit', {post: foundPost});
+	});
+});
+
+/* Update selected post */
+router.put('/:post/edit', function(req, res){
+	req.sanitize('postTitle').escape();
+	req.sanitize('postBody').escape();
+	Post.findById(req.body.postID, function(err, updatedPost){
+		if(err){
+			console.log(err);
+			res.redirect('/');
+		}
+		else{
+			updatedPost.title = req.body.postTitle;
+			updatedPost.body = req.body.postBody;
+			updatedPost.save(function(err){
+				if(err){
+					console.log(err);
+					res.redirect('/');
+				}
+				else
+					res.redirect('/'+req.body.postID);
+			});
+		}
+	});
+});
+
 /* Add Comments to the specific blog post */
 router.post('/:post/comment', function(req, res){
 	/* Sanitize the comment */
@@ -110,19 +145,6 @@ router.post('/:post/comment', function(req, res){
 		}
 		else
 			res.redirect('/'+req.body.postID);
-	});
-});
-
-/* Update selected post */
-router.put('/:post', function(req, res){
-	req.body.body = req.sanitize(res.body.body);
-	Post.findByIdAndUpdate(req.params.post, req.body.body, function(err, updatedPost){
-		if(err){
-			console.log('err:'+ err);
-			res.redirect('/'+req.params.post+'/edit');
-		}
-		else
-			res.redirect('/:id');
 	});
 });
 

@@ -1,0 +1,14 @@
+<div class="ui container">
+	<div class="ui huge header">Edit {{post.title}}</div>
+	<form class="ui form" action="/:post/edit?_method=PUT" method="POST">
+		<input type="hidden" name="postID" value="{{post.id}}">
+		<div class="field">
+			<label>Title</label>
+			<input type="text" name="postTitle" value={{post.title}}>
+		</div>
+		<div class="field">
+			<label>Body</label>
+			<textarea name="postBody">{{post.body}}</textarea>
+		</div>
+		<button class="ui large blue button">Submit</button> 
+</div>

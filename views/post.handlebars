@@ -8,8 +8,15 @@
 		</header>
 		<p>{{post.body}}</p>
 	</article>
-	<!-- Comment Text -->
-	<div class="ui container">
+	{{#if user}}
+		{{#compare user.type "==" "admin"}}
+			<a href="/{{post.id}}/edit"><button class="btn btn-default" type="button">Edit Post</button></a>
+		{{/compare}}
+	{{/if}}
+
+	<!-- Comment Section -->
+	<div class="ui comments">
+		
 		{{#if user}}
 			<form name="comment" role="form" action="/:post/comment" method="post">
 				<div class="form-group">
@@ -23,10 +30,7 @@
 		{{else}}
 			<p>You need to log in to leave a comment</p>
 		{{/if}}
-	</div>
-
-	<!-- Comment Section -->
-	<div class="ui comments">
+		
 		<h3 class="ui dividing header">Comments</h3>
 		{{#each comment}}
 		<div class="comment ui segment">

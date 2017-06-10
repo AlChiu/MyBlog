@@ -98,6 +98,26 @@ router.get('/:post', function(req, res){
 	});
 });
 
+/* Delete a post */
+router.delete('/:post', function(req, res){
+	Post.findByIdAndRemove(req.body.postID, function(err){
+		if(err){
+			console.log(err);
+			res.redirect('/'+req.body.postID);
+		}
+		else{
+			Comment.deleteMany({post: req.body.postID}, function(err){
+				if(err){
+					console.log(err);
+					res.redirect('/'+req.body.postID);
+				}
+				else
+					res.redirect('/');
+			});
+		}
+	});
+});
+
 /* Edit Post Route */
 router.get('/:post/edit', function(req, res){
 	Post.findById(req.params.post, function(err, foundPost){
@@ -145,18 +165,6 @@ router.post('/:post/comment', function(req, res){
 		}
 		else
 			res.redirect('/'+req.body.postID);
-	});
-});
-
-/* Delete a post */
-router.delete('/:post', function(req, res){
-	Post.findByIdAndRemove(req.params.post, function(err){
-		if(err){
-			console.log(err);
-			res.redirect('/'+req.params.post);
-		}
-		else
-			res.redirect('/');
 	});
 });
 

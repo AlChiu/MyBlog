@@ -1,5 +1,6 @@
 /*jslint node: true */
 'use string';
+var moment = require('moment');
 
 /* Helper function to display only a piece of a string */
 exports.ssubstring = function(post, start, finish){
@@ -9,8 +10,8 @@ exports.ssubstring = function(post, start, finish){
 
 /* Helper function to format the date */
 exports.formatDate = function(value, options){
-  var time = value.toLocaleTimeString();
-  return time;
+	var time = moment(value).format("LLLL");
+	return time;
 };
 
 /* Helper function used for comparisons */

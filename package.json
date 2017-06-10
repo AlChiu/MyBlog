@@ -31,6 +31,7 @@
     "express-validator": "^3.2.0",
     "handlebars-helpers": "^0.8.2",
     "method-override": "^2.3.9",
+    "moment": "^2.18.1",
     "mongoose": "^4.10.0",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
@@ -38,6 +39,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "q": "^1.5.0",
+    "quill": "^1.2.6",
     "semantic-ui": "^2.2.10"
   },
   "devDependencies": {

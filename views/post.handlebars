@@ -10,7 +10,11 @@
 	</article>
 	{{#if user}}
 		{{#compare user.type "==" "admin"}}
-			<a href="/{{post.id}}/edit"><button class="btn btn-default" type="button">Edit Post</button></a>
+			<a href="/{{post.id}}/edit"><button class="ui blue button">Edit Post</button></a>
+			<form name="delete" role="form" action="/:post?_method=DELETE" method="POST">
+				<input type="hidden" name="postID" value={{post.id}}>
+				<button class="ui red button">Delete</button>
+			</form>
 		{{/compare}}
 	{{/if}}
 

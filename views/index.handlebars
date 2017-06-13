@@ -2,14 +2,14 @@
 	{{#each posts}}
 		<div class="item">
 			<div class="content">
-				<a class="header" href="/{{_id}}">{{title}}</a>
+				<a class="ui huge header" href="/{{_id}}">{{title}}</a>
 				<div class="meta">
 					<a>{{formatDate created}}</a>
 					<br><br>
 					<a>Posted by {{author}}</a>
 				</div>
-				<div class="preview">
-					{{ssubstring body 0 150}}
+				<div id="{{@index}}" class="preview">
+					{{{formattedBody}}}
 				</div>
 			</div>
 		</div>

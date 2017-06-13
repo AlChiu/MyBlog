@@ -6,7 +6,7 @@
 			<p>{{formatDate post.created}}</p>
 			<p>{{post.author}}</p>
 		</header>
-		<p>{{post.body}}</p>
+		<p>{{{post.formattedBody}}}</p>
 	</article>
 	{{#if user}}
 		{{#compare user.type "==" "admin"}}

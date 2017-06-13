@@ -3,7 +3,8 @@
 
 /* Import dependencies */
 var router = require('express').Router(),
-	passport = require('passport');
+	passport = require('passport'),
+	marked = require('marked');
 	//mongoose = require('mongoose');
 
 /* Set up mongoose to use q promises */
@@ -13,6 +14,18 @@ var router = require('express').Router(),
 var User = require('../models/user');
 var Post = require('../models/post');
 var Comment = require('../models/comment');
+
+/* marked options */
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false
+});
 
 /* Render the home page and with user data */
 /* Populate homepage with posts */
@@ -36,13 +49,18 @@ router.post('/new', function(req, res){
 	/* Trim and sanitize the new post */
 	req.sanitize('postTitle').escape();
 	req.sanitize('postTitle').trim();
-	req.sanitize('postBody').escape();
+	//req.sanitize('postBody').escape();
 
-	Post.create({title: req.body.postTitle, body: req.body.postBody, created: Date.now()}, function(err, newPost){
-		if(err)
-			res.render('new');
-		else
-			res.redirect('/');
+	marked(req.body.postBody, function(err, content){
+		if(err) throw err;
+		else{
+			Post.create({title: req.body.postTitle, markBody: req.body.postBody, formattedBody: content, created: Date.now()}, function(err, newPost){
+				if(err)
+					res.render('new');
+				else
+					res.redirect('/');
+			});
+		} 
 	});
 });
 

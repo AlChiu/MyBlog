@@ -18,6 +18,7 @@ var Comment = require('../models/comment');
 /* marked options */
 marked.setOptions({
   renderer: new marked.Renderer(),
+  highlight: function(code){return require('highlight.js').highlightAuto(code).value;},
   gfm: true,
   tables: true,
   breaks: false,
@@ -26,6 +27,15 @@ marked.setOptions({
   smartLists: true,
   smartypants: false
 });
+
+/* Function to ensure that user is authenticated for specific pages */
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+}
 
 /* Render the home page and with user data */
 /* Populate homepage with posts */
@@ -40,7 +50,7 @@ router.get('/', function(req, res){
 
 /* Render the post creation */
 /* Only users with admin user type can create new posts */
-router.get('/new', function(req, res){
+router.get('/new', ensureAuthenticated, function(req, res){
 	res.render('new', {user: req.user});
 });
 

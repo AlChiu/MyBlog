@@ -1,21 +1,32 @@
-<div class="ui container">
-	<h1 class="ui header">New Blog Post</h1>
-	<form role="form" action="/new" method="post">
-		<div class="ui form">
-			<div class="field">
-				<label>Post Title</label>
-				<input type="text" name="postTitle" placeholder="New Title">
-			</div>
+{{#if user}}
+	{{#compare user.type "==" "admin"}}
+		<div class="ui container">
+			<h1 class="ui header">New Blog Post</h1>
+			<form role="form" action="/new" method="post">
+				<div class="ui form">
+					<div class="field">
+						<label>Post Title</label>
+						<input type="text" name="postTitle" placeholder="New Title">
+					</div>
+				</div>
+				<div class="ui form">
+					<div class="field">
+						<label>Post Body</label>
+						<textarea id="mde" name="postBody"></textarea>
+						<script>
+							var simplemde = new SimpleMDE({element: document.getElementById("mde")});
+						</script>
+					</div>
+				</div>
+				<button class="ui large blue button">Submit</button>
+			</form>
 		</div>
-		<div class="ui form">
-			<div class="field">
-				<label>Post Body</label>
-				<textarea id="mde" name="postBody"></textarea>
-				<script>
-					var simplemde = new SimpleMDE({element: document.getElementById("mde")});
-				</script>
-			</div>
+	{{/compare}}
+	{{#compare user.type "!=" "admin"}}
+		<div class="ui container">
+			<h1 class="ui header">Unauthorized Access</h1>
+			<p>Need to be an admin to create a new post.</p>
+			<p>Please return to the homepage <a href="/">here</a>.</p>
 		</div>
-		<button class="ui large blue button">Submit</button>
-	</form>
-</div>
+	{{/compare}}
+{{/if}}

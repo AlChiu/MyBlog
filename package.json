@@ -30,6 +30,7 @@
     "express-session": "^1.15.3",
     "express-validator": "^3.2.0",
     "handlebars-helpers": "^0.8.2",
+    "highlight.js": "^9.12.0",
     "marked": "^0.3.6",
     "method-override": "^2.3.9",
     "moment": "^2.18.1",

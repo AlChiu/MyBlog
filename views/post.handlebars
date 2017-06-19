@@ -2,30 +2,37 @@
 <div class="ui container">
 	<article>
 		<header>
-			<h1>{{post.title}}</h1>
-			<p>{{formatDate post.created}}</p>
-			<p>{{post.author}}</p>
+			<h1 class="ui header">{{post.title}}</h1>
+			<span>{{formatDate post.created}}</span>
+			<span>--{{post.author}}</span>
+			<div class="ui divider"></div>
 		</header>
-		<p>{{{post.formattedBody}}}</p>
+		<div class="ui main text container">
+			<p>{{{post.formattedBody}}}</p>
+		</div>
 	</article>
 	{{#if user}}
 		{{#compare user.type "==" "admin"}}
-			<a href="/{{post.id}}/edit"><button class="ui blue button">Edit Post</button></a>
-			<form name="delete" role="form" action="/:post?_method=DELETE" method="POST">
-				<input type="hidden" name="postID" value={{post.id}}>
-				<button class="ui red button">Delete</button>
-			</form>
+			<div class="ui horizontal divider">Admin Controls</div>
+			<div class="ui two column grid container">
+				<div class="column">
+					<a href="/{{post.id}}/edit"><button class="fluid ui blue button">Edit Post</button></a>
+				</div>
+				<div class="column">
+					<form name="delete" role="form" action="/:post?_method=DELETE" method="POST">
+						<input type="hidden" name="postID" value={{post.id}}>
+						<button class="fluid ui red button">Delete</button>
+					</form>
+				</div>
+			</div>
 		{{/compare}}
 	{{/if}}
 
-	<!-- Comment Section -->
-	<div class="ui comments">
-		
+	<!-- Leave a Comment -->
+	<div class="ui horizontal divider">Leave a Comment</div>
 		{{#if user}}
 			<form name="comment" role="form" action="/:post/comment" method="post">
 				<div class="form-group">
-					<label>Leave a Comment</label>
-					<br>
 					<input type="hidden" name="postID" value="{{post.id}}">
 					<textarea name="postComment"></textarea>
 				</div>
@@ -34,8 +41,9 @@
 		{{else}}
 			<p>You need to log in to leave a comment</p>
 		{{/if}}
-		
-		<h3 class="ui dividing header">Comments</h3>
+
+	<!-- Comment Section -->
+	<div class="ui horizontal divider">Comments</div>
 		{{#each comment}}
 		<div class="comment ui segment">
 			<div class="content">
@@ -44,8 +52,7 @@
 				<div class="text">{{body}}</div>
 			</div>
 		</div>
-		{{/each}}
-	</div>	
+		{{/each}}	
 </div>
 
 

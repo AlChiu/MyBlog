@@ -15,24 +15,24 @@
 </head>
 <body>
 	<!-- Header Main Bar -->
-	<div class="ui menu">
-		<div class="header item">
-			<a href="/"><i class="home icon"></i>Alex's Blog</a>
+	<div class="ui inverted menu">
+		<div class="ui container">
+			<a href="/" class="header item"><i class="home icon"></i>Alex's Blog</a>
+			{{#if user}}
+				{{#compare user.type "==" "admin"}}
+					<a class="item" href="/new"><i class="write square icon"></i>New Post</a>
+				{{/compare}}
+				<div class="right menu">
+					<div class="item">Hello, {{user.username}}</div>
+					<a class="item" href="/logout"><i class="sign out icon"></i>Logout</a>
+				</div>
+			{{else}}
+				<div class="right menu">
+					<a class="item" href="/login"><i class="sign in icon"></i>Login</a>
+					<a class="item" href="/register"><i class="add user icon"></i>Register</a>
+				</div>
+			{{/if}}
 		</div>
-		{{#if user}}
-			{{#compare user.type "==" "admin"}}
-				<a class="item" href="/new"><i class="write square icon"></i>New Post</a>
-			{{/compare}}
-			<div class="right menu">
-				<div class="item">Hello, {{user.username}}</div>
-				<a class="item" href="/logout"><i class="sign out icon"></i>Logout</a>
-			</div>
-		{{else}}
-			<div class="right menu">
-				<a class="item" href="/login"><i class="sign in icon"></i>Login</a>
-				<a class="item" href="/register"><i class="add user icon"></i>Register</a>
-			</div>
-		{{/if}}
 	</div>
 
 	<!-- Main Body -->

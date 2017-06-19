@@ -1,14 +1,35 @@
-<div class="ui container">
-	<div class="ui huge header">Edit {{post.title}}</div>
-	<form class="ui form" action="/:post/edit?_method=PUT" method="POST">
-		<input type="hidden" name="postID" value="{{post.id}}">
-		<div class="field">
-			<label>Title</label>
-			<input type="text" name="postTitle" value={{post.title}}>
+{{#if user}}
+	{{#compare user.type "==" "admin"}}
+		<div class="ui main text container">
+			<h1 class="ui huge header">Edit {{post.title}}</h1>
+			<form class="ui form" action="/:post/edit?_method=PUT" method="POST">
+				<input type="hidden" name="postID" value="{{post.id}}">
+				<div class="ui form">
+					<div class="field">
+						<label>Post Body</label>
+						<textarea id="mde" name="markBody">{{post.markBody}}</textarea>
+						<script>
+							var simplemde = new SimpleMDE({
+								element: document.getElementById("mde")
+							});
+						</script>
+					</div>
+				</div>
+				<button class="fluid ui blue button">Submit</button>
+			</form>
 		</div>
-		<div class="field">
-			<label>Body</label>
-			<textarea name="postBody">{{post.markBody}}</textarea>
+	{{/compare}}
+	{{#compare user.type "!=" "admin"}}
+		<div class="ui main text container">
+			<h1 class="ui header">Unauthorized Access</h1>
+			<p>Need to be an admin to create a new post.</p>
+			<p>Please return to the homepage <a href="/">here</a>.</p>
 		</div>
-		<button class="ui large blue button">Submit</button> 
-</div>
+	{{/compare}}
+{{else}}
+	<div class="ui main text container">
+		<h1 class="ui header">Unauthorized Access</h1>
+		<p>Need to be an admin to create a new post.</p>
+		<p>Please return to the homepage <a href="/">here</a>.</p>
+	</div>
+{{/if}}

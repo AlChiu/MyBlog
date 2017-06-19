@@ -59,7 +59,6 @@ router.post('/new', function(req, res){
 	/* Trim and sanitize the new post */
 	req.sanitize('postTitle').escape();
 	req.sanitize('postTitle').trim();
-	//req.sanitize('postBody').escape();
 
 	marked(req.body.postBody, function(err, content){
 		if(err) throw err;
@@ -147,7 +146,7 @@ router.delete('/:post', function(req, res){
 });
 
 /* Edit Post Route */
-router.get('/:post/edit', function(req, res){
+router.get('/:post/edit', ensureAuthenticated, function(req, res){
 	Post.findById(req.params.post, function(err, foundPost){
 		if(err){
 			console.log(err);
@@ -161,23 +160,25 @@ router.get('/:post/edit', function(req, res){
 router.put('/:post/edit', function(req, res){
 	req.sanitize('postTitle').escape();
 	req.sanitize('postBody').escape();
-	Post.findById(req.body.postID, function(err, updatedPost){
-		if(err){
-			console.log(err);
-			res.redirect('/');
-		}
-		else{
-			updatedPost.title = req.body.postTitle;
-			updatedPost.body = req.body.postBody;
-			updatedPost.save(function(err){
-				if(err){
-					console.log(err);
-					res.redirect('/');
-				}
-				else
-					res.redirect('/'+req.body.postID);
-			});
-		}
+	marked(req.body.markBody, function(err, updatedContent){
+		Post.findById(req.body.postID, function(err, updatedPost){
+			if(err){
+				console.log(err);
+				res.redirect('/');
+			}
+			else{
+				updatedPost.markBody = req.body.markBody;
+				updatedPost.formattedBody = updatedContent;
+				updatedPost.save(function(err){
+					if(err){
+						console.log(err);
+						res.redirect('/');
+					}
+					else
+						res.redirect('/'+req.body.postID);
+				});
+			}
+		});				
 	});
 });
 

@@ -1,15 +1,12 @@
-<div class="ui relaxed divided items container">
+<div class="ui relaxed divided items main text container">
 	{{#each posts}}
-		<div class="item">
+		<div class="ui item">
 			<div class="content">
 				<a class="ui huge header" href="/{{_id}}">{{title}}</a>
 				<div class="meta">
 					<a>{{formatDate created}}</a>
 					<br><br>
 					<a>Posted by {{author}}</a>
-				</div>
-				<div id="{{@index}}" class="preview">
-					{{{formattedBody}}}
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 {{#if user}}
 	{{#compare user.type "==" "admin"}}
-		<div class="ui container">
+		<div class="ui main textcontainer">
 			<h1 class="ui header">New Blog Post</h1>
 			<form role="form" action="/new" method="post">
 				<div class="ui form">
@@ -23,10 +23,16 @@
 		</div>
 	{{/compare}}
 	{{#compare user.type "!=" "admin"}}
-		<div class="ui container">
+		<div class="ui main text container">
 			<h1 class="ui header">Unauthorized Access</h1>
 			<p>Need to be an admin to create a new post.</p>
 			<p>Please return to the homepage <a href="/">here</a>.</p>
 		</div>
 	{{/compare}}
+{{else}}
+	<div class="ui main text container">
+		<h1 class="ui header">Unauthorized Access</h1>
+		<p>Need to be an admin to create a new post.</p>
+		<p>Please return to the homepage <a href="/">here</a>.</p>
+	</div>
 {{/if}}
